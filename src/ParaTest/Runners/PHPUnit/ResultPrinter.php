@@ -204,6 +204,14 @@ class ResultPrinter
             $this->results->addReader($reader);
             $this->processReaderFeedback($reader, $test->getTestCount());
             $this->printTestWarnings($test);
+            if ($this->results->getFailures() || $this->results->getErrors()) {
+                print "Exit Code: {$test->getExitCode()}\n";
+                print "StdErr: \n{$test->getStderr()}\n";
+                print "StdOut: \n{$test->getStdout()}\n";
+                print $this->getFailures();
+                print $this->getErrors();
+
+            }
         } catch (\InvalidArgumentException $e) {
             print "Exit Code: {$test->getExitCode()}\n";
             print "StdErr: \n{$test->getStderr()}\n";
