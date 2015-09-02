@@ -210,7 +210,7 @@ class ResultPrinter
                 print "StdOut: \n{$test->getStdout()}\n";
                 print $this->getFailures();
                 print $this->getErrors();
-
+                throw new Exception("I want to get out now!");
             }
         } catch (\InvalidArgumentException $e) {
             print "Exit Code: {$test->getExitCode()}\n";
