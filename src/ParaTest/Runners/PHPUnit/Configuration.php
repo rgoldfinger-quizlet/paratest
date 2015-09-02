@@ -164,6 +164,24 @@ class Configuration
         throw new \RuntimeException("Suite path $path could not be found");
     }
 
+    public function getPrinterClass()
+    {
+        if ($this->xml) {
+            return (string)$this->xml->attributes()->printerClass;
+        } else {
+            return '';
+        }
+    }
+
+    public function getPrinterFile()
+    {
+        if ($this->xml) {
+            return (string)$this->xml->attributes()->printerFile;
+        } else {
+            return '';
+        }
+    }
+
     /**
      * Returns true if path needs globbing (like a /path/*-to/string)
      *

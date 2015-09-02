@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace ParaTest\Console\Testers;
 
 use Symfony\Component\Console\Command\Command;
@@ -141,6 +141,7 @@ class PHPUnit extends Tester
         $options = $this->getOptions($input);
         $bootstrap = $this->getBootstrapFile($input, $options);
         $this->requireBootstrap($bootstrap);
+        $resultPrinter = $this->getResultPrinter();
 
         if ($this->hasCoverage($options)) {
             $options['coverage-php'] = sys_get_temp_dir() . '/will_be_overwritten.php';
@@ -148,6 +149,10 @@ class PHPUnit extends Tester
 
         if ($path) {
             $options = array_merge(array('path' => $path), $options);
+        }
+
+        if ($resultPrinter) {
+            $options = array_merge(['printer' => $resultPrinter], $options);
         }
 
         return $options;
@@ -221,4 +226,18 @@ class PHPUnit extends Tester
 
         return ($bootstrap) ? $config->getConfigDir() . $bootstrap : '';
     }
+
+    protected function getResultPrinter(InputInterface $input)
+    {
+
+        if (! $this->hasConfig($input)) {
+            return '';
+        }
+
+        $config = $this->getConfig($input);
+        $printerClass = $config->getPrinterClass();
+
+        return ($printerClass) ?: '';
+    }
+
 }
