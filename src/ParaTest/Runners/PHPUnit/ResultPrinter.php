@@ -189,20 +189,26 @@ class ResultPrinter
      */
     public function printFeedback(ExecutableTest $test)
     {
-        $reader = new Reader($test->getTempFile());
-        if (!$reader->hasResults()) {
-            throw new \RuntimeException(sprintf(
-                "The process: %s\nLog file \"%s\" is empty.\n" .
-                "This means a PHPUnit process was unable to run \"%s\"\n" .
-                "Maybe there is more than one class in this file.",
-                $test->getLastCommand(),
-                $test->getTempFile(),
-                $test->getPath()
-            ));
+        try {
+            $reader = new Reader($test->getTempFile());
+            if (!$reader->hasResults()) {
+                throw new \RuntimeException(sprintf(
+                    "The process: %s\nLog file \"%s\" is empty.\n" .
+                    "This means a PHPUnit process was unable to run \"%s\"\n" .
+                    "Maybe there is more than one class in this file.",
+                    $test->getLastCommand(),
+                    $test->getTempFile(),
+                    $test->getPath()
+                ));
+            }
+            $this->results->addReader($reader);
+            $this->processReaderFeedback($reader, $test->getTestCount());
+            $this->printTestWarnings($test);
+        } catch (\InvalidArgumentException $e) {
+            print "Exit Code: {$test->getExitCode()}\n";
+            print "StdErr: \n{$test->getStderr()}\n";
+            print "StdOut: \n{$test->getStdout()}\n";
         }
-        $this->results->addReader($reader);
-        $this->processReaderFeedback($reader, $test->getTestCount());
-        $this->printTestWarnings($test);
     }
 
     /**
