@@ -313,9 +313,6 @@ class ResultPrinter
             $this->printFeedbackItem($item);
         }
 
-        print $this->getFailures();
-        print $this->getErrors();
-
         if ($this->processSkipped) {
             $this->printSkippedAndIncomplete($actualTestCount, $expectedTestCount);
         }
