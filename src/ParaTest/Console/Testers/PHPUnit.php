@@ -141,7 +141,7 @@ class PHPUnit extends Tester
         $options = $this->getOptions($input);
         $bootstrap = $this->getBootstrapFile($input, $options);
         $this->requireBootstrap($bootstrap);
-        $resultPrinter = $this->getResultPrinter();
+        $resultPrinter = $this->getResultPrinter($input);
 
         if ($this->hasCoverage($options)) {
             $options['coverage-php'] = sys_get_temp_dir() . '/will_be_overwritten.php';
