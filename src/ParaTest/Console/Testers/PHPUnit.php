@@ -151,9 +151,9 @@ class PHPUnit extends Tester
             $options = array_merge(array('path' => $path), $options);
         }
 
-        if ($resultPrinter) {
-            $options = array_merge(['printer' => $resultPrinter], $options);
-        }
+        // if ($resultPrinter) {
+        //     $options = array_merge(['printer' => $resultPrinter], $options);
+        // }
 
         return $options;
     }
