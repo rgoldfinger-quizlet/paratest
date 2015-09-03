@@ -205,6 +205,7 @@ class ResultPrinter
             $this->processReaderFeedback($reader, $test->getTestCount());
             $this->printTestWarnings($test);
             if ($this->results->getFailures() || $this->results->getErrors()) {
+                print "\nI am causing the issue\n";
                 print "Exit Code: {$test->getExitCode()}\n";
                 print "StdErr: \n{$test->getStderr()}\n";
                 print "StdOut: \n{$test->getStdout()}\n";
@@ -213,6 +214,7 @@ class ResultPrinter
                 throw new Exception("I want to get out now!");
             }
         } catch (\InvalidArgumentException $e) {
+            print "\nNo, I am causing the issue.\n";
             print "Exit Code: {$test->getExitCode()}\n";
             print "StdErr: \n{$test->getStderr()}\n";
             print "StdOut: \n{$test->getStdout()}\n";
