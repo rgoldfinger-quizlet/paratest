@@ -157,7 +157,10 @@ abstract class ExecutableTest
      */
     public function getExitCode()
     {
-        return $this->process->getExitCode();
+        if ($this->process) {
+            return $this->process->getExitCode();
+        }
+        error_log("There is no process here, not sure why not.");
     }
 
     /**
