@@ -95,7 +95,10 @@ abstract class ExecutableTest
      */
     public function getStderr()
     {
-        return $this->process->getErrorOutput();
+        if ($this->process) {
+            return $this->process->getErrorOutput();
+        }
+        error_log("There is no process here, not sure why not. Continue forward.");
     }
 
     /**
@@ -160,7 +163,7 @@ abstract class ExecutableTest
         if ($this->process) {
             return $this->process->getExitCode();
         }
-        error_log("There is no process here, not sure why not.");
+        error_log("There is no process here, not sure why not. Continue forward.");
     }
 
     /**
@@ -189,6 +192,9 @@ abstract class ExecutableTest
         $this->assertValidCommandLineLength($command);
         $this->lastCommand = $command;
         $this->process = new Process($command, null, $environmentVariables);
+        if ($this->process) {
+            throw new Exception("This is not returning a process object");
+        }
         $this->process->start();
         return $this;
     }
