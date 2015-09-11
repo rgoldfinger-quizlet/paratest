@@ -1,5 +1,7 @@
 #!/usr/bin/env php
 <?php
+error_log("Worker starting\n");
+
 // git working copy
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
@@ -21,8 +23,10 @@ while (true) {
     }
     $command = rtrim($command);
     if ($command === 'EXIT') {
+        error_log("EXITED\n");
         exit($lastExitCode);
     }
+    error_log("Executing: $command\n");
 
     if (!preg_match_all('/\'([^\']*)\'[ ]?/', $command, $arguments)) {
         throw new \Exception("Failed to parse arguments from command line: \"" . $command . "\"");
@@ -30,4 +34,5 @@ while (true) {
     $_SERVER['argv'] = $arguments[1];
 
     $lastExitCode = PHPUnit_TextUI_Command::main(false);
+    error_log("FINISHED\n");
 }
