@@ -32,12 +32,9 @@ class Worker
         if ($uniqueToken) {
             $bin .= "UNIQUE_TEST_TOKEN=$uniqueToken ";
         }
-        if (defined('HHVM_VERSION')) {
-            $bin .= "LD_LIBRARY_PATH=/opt/pcrelib ";
-            $bin .= "exec hhvm -d max_execution_time=0 '$wrapperBinary'";
-        } else {
-            $bin .= "exec php '$wrapperBinary'";
-        }
+
+        $bin .= "LD_LIBRARY_PATH=/opt/pcrelib ";
+        $bin .= "exec qhhvm -d max_execution_time=0 '$wrapperBinary'";
         $pipes = array();
         $this->proc = proc_open($bin, self::$descriptorspec, $pipes);
         $this->pipes = $pipes;
