@@ -34,7 +34,7 @@ class Worker
         }
 
         $bin .= "LD_LIBRARY_PATH=/opt/pcrelib ";
-        $bin .= "exec /usr/local/bin/qhhvm -d max_execution_time=0 '$wrapperBinary'";
+        $bin .= "exec /usr/local/bin/qhhvm-cli '$wrapperBinary'";
         $pipes = array();
         $this->proc = proc_open($bin, self::$descriptorspec, $pipes);
         $this->pipes = $pipes;
