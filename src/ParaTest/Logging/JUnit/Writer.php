@@ -152,7 +152,7 @@ class Writer
     protected function appendDefects($caseNode, $defects, $type)
     {
         foreach ($defects as $defect) {
-            $defectNode = $this->document->createElement($type, htmlentities($defect['text']) . "\n");
+            $defectNode = $this->document->createElement($type, htmlspecialchars($defect['text'], ENT_XML1) . "\n");
             $defectNode->setAttribute('type', $defect['type']);
             $caseNode->appendChild($defectNode);
         }
