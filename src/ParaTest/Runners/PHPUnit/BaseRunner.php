@@ -100,6 +100,14 @@ abstract class BaseRunner
         $loader->load($this->options->path);
         $executables = $this->options->functional ? $loader->getTestMethods() : $loader->getSuites();
         $this->pending = array_merge($this->pending, $executables);
+        // Sort all tests in a pseudo-random but deterministic order
+        // (deterministic as in doesn't-change-between-runs)
+        // Without this, tests are sorted in lexicographic order, and if
+        // your heaviest tests happen to be lexicographically last, then
+        // the parallel processor will be stuck running them last always
+        uksort($this->pending, function($k1, $k2) {
+            return crc32($k1) - crc32($k2);
+        });
         foreach ($this->pending as $pending) {
             $this->printer->addTest($pending);
         }
